@@ -1,0 +1,25 @@
+{
+  "name": "backend_loscampesinos_app",
+  "version": "0.9.0",
+  "description": "Backend del proyecto",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SrRobls/Backend-LosCampesionas-APP.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SrRobls/Backend-LosCampesionas-APP/issues"
+  },
+  "homepage": "https://github.com/SrRobls/Backend-LosCampesionas-APP#readme",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "express": "^4.18.2",
+    "mongodb": "^4.12.1",
+    "mongoose": "^6.7.3"
+  }
+}
