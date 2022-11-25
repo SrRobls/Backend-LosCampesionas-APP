@@ -6,6 +6,7 @@ let productoSchema = require("../db/schemas/productoSchema");
 // 1) Metodo HTTP (verbos HTTP)
 // 2) RUTA (VIrtual)
 // 3) EL ALGORITMO QUE YO PROGRAMO PARA RESPONDER ESA PETICION
+
 router.get("/get/:idProducto", async function (req, res) {
     let idProducto = req.params.idProducto;
     let result = await productoSchema.findProductoById(idProducto);

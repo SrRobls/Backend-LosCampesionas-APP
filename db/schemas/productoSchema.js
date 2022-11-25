@@ -4,6 +4,7 @@ let mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 //definir la configuracion del esquema
 let schemaConfig = {
+    idProducto: String,
     Producto: {
         type: String,
         required: true,
@@ -23,7 +24,7 @@ async function createProducto(productoNew) {
         //definicion de modelo
         let newProducto = new UserModel();
         //llenado del modelo
-        // newProducto.id = productoNew.id;
+        newProducto.idProducto = productoNew.idProducto;
         newProducto.Producto = productoNew.Producto;
         newProducto.precio = productoNew.precio;
         newProducto.Proveedor = productoNew.Proveedor;

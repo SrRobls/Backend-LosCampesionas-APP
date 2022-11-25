@@ -1,25 +1,72 @@
-// Cargar las dependencia
-let bodyParser = require("body-parser");
-let express = require("express");
+console.log("Cargando configuracion...");
+//Importar las dependencias
+const express = require("express");
+var bodyParser = require("body-parser");
+let cors = require("cors");
+let session = require("express-session");
+//Cargar configuracion app WEB
+const appConfig = require("./config");
 
-// Cargar la configuracion de la applicacion
-let appConfig = require("./config");
+console.log("Inicializar la Aplicacion WEB...");
+//Inicializar una APLICACION WEB
+require("./db/dbInitializer");
+const app = express();
 
-// Cargamos los enrutadores
-let productosRouter = require("./routes/productosRouter");
+//middleware
+app.use(bodyParser.json());
+app.use(cors());
+//middleware para las variables de sesion
+app.use(
+    session({
+        secret: "mipalabrasecreta",
+        cookie: { maxAge: 60000, secure: false },
+    })
+);
+// 1) Metodo HTTP (verbos HTTP)
+// 2) RUTA (VIrtual)
+// 3) EL ALGORITMO QUE YO PROGRAMO PARA RESPONDER ESA PETICION
 
-// Inicializar nuestra app web y la conexion a base de datos
-let dbConnector = require("./db/dbConector");
-let app = express();
+//middleware para loguear cada peticion
+app.use(function (req, res, next) {
+    if (req.session.MI_VAR > -1) {
+        req.session.MI_VAR = req.session.MI_VAR + 1;
+    } else {
+        req.session.MI_VAR = 0;
+    }
 
-// Registramos los enrutadores
-app.use("/productos", productosRouter);
+    console.log(req.session);
+    next();
+});
 
-// Levantamos el servidor
-app.listen(appConfig.PORT, function () {
-    console.log(
-        "La aplicacion esta escuchando en el puerto: " + appConfig.PORT
+console.log("Configurando Routers...");
+const userDummyRouter = require("./routes/routerDummyUser");
+const userRouter = require("./routes/routerUsers");
+
+//Configurar Routers en la APP
+
+app.use("/api/usuariosDummy", userDummyRouter);
+app.use("/api/usuarios", userRouter);
+
+app.get("/", function (req, res) {
+    res.send("Home Page!");
+});
+
+app.get("/imagen", async function (req, res) {
+    res.sendFile(
+        "E:/CICLO4/1,2,6,59/backendproyecto_nigth/images/imagentest.png"
     );
 });
 
-console.log("Hello world!!!!!");
+console.log("Iniciando Servidor");
+
+let server = app.listen(
+    appConfig.PORT,
+
+    function () {
+        console.log(
+            `La aplicacion WEB esta escuchando en el PUERTO: ` + appConfig.PORT
+        );
+    }
+);
+
+//AXIOS -> permite hacer peticiones HTTP
